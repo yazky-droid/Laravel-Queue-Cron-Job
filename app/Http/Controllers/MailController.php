@@ -15,7 +15,8 @@ class MailController extends Controller
         return 'Email Sended';
     }
     public function test(){
-        $email = User::find(1)->email;
+        // $email = User::find(1)->email;
+        $email = 'arwanimaulana89@gmail.com';
         Mail::to($email)->send(new MailNotification('addProduct',$email));
         return 'email sended';
     }

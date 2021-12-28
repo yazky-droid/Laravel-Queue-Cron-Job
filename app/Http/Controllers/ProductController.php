@@ -54,34 +54,30 @@ class ProductController extends Controller
             $image_resize_large = Image::make($request->image);
             $image_resize_large->resize(1024,600);
 
-            $image_resize_large->save(public_path('images/'.'large'.$request->image->getClientOriginalName()));
+            $large_image = 'large'.$request->image->getClientOriginalName();
+            $large_url = 'images/'.$large_image;
+            $image_resize_large->save(public_path($large_url));
 
-            // $large_image = $image_resize_large->stream()->store('/images','s3','public');
-            $large_image = Storage::disk('s3')->put('/images',$image_resize_large->stream()->__toString());
-            $large_url = Storage::disk('s3')->url($large_image);
 
             // convert to medium
             $image_resize_medium = Image::make($request->image);
             $image_resize_medium->resize(800,400);
 
-            $image_resize_medium->save(public_path('images/'.'medium'.$request->image->getClientOriginalName()));
 
-            // $medium_image = $image_resize_medium->stream()->store('/images','s3','public');
-            $medium_image = Storage::disk('s3')->put('/images',$image_resize_medium);
-            $medium_url = Storage::disk('s3')->url($medium_image);
+            $medium_image = 'medium'.$request->image->getClientOriginalName();
+            $medium_url = 'images/'.$medium_image;
+            $image_resize_medium->save(public_path($medium_url));
 
 
             // convert to small
             $image_resize_small = Image::make($request->image);
             $image_resize_small->resize(215,80);
 
-            $image_resize_small->save(public_path('images/'.'small'.$request->image->getClientOriginalName()));
+            $small_image = 'small'.$request->image->getClientOriginalName();
+            $small_url = 'images/'.$small_image;
+            $image_resize_small->save(public_path($small_url));
 
-            // $small_image = $image_resize_small->stream()->store('/images','s3','public');
-            $small_image = Storage::disk('s3')->put('/images',$image_resize_small->stream()->__toString());
-            $small_url = Storage::disk('s3')->url($small_image);
 
-            // return ['url'=>$url,'name'=>basename($image)];
             $product = Product::create([
                 'product_name'=>$request->product_name,
                 'product_price'=>$request->product_price,
@@ -115,12 +111,12 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        // return Storage::disk('s3')->response('images/' . $product->image_name);
-        return response()->json([
-            'message'=>'success',
-            'data'=>$product,
-            'image'=>Storage::disk('s3')->response('images/' . $product->image_name)
-        ],200);
+        return Storage::disk('s3')->response('images/' . $product->original_image_name);
+        // return response()->json([
+        //     'message'=>'success',
+        //     'data'=>$product,
+        //     'image'=>Storage::disk('s3')->response('images/' . $product->image_name)
+        // ],200);
     }
 
     /**
