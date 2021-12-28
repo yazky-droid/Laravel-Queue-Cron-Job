@@ -14,6 +14,7 @@
     </center>
 
     <p>Hi, {{ $name }}</p>
+    <p>Nomor Transaksi: <strong>{{ $id_transaksi }}</strong><p>
     <p>{{ $content }}</p>
 
     <strong>Terima kasih</strong>

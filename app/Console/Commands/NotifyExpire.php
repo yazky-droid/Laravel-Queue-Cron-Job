@@ -43,7 +43,7 @@ class NotifyExpire extends Command
         $transaction = Transaction::with('user')
             ->where('expired_at', '<', date('Y-m-d H:i:s'))
             ->where('status', 'pending')
-            ->orderBy('expired_at', 'asc')
+            ->orderBy('created_at', 'asc')
             ->first();
 
         DB::beginTransaction();
