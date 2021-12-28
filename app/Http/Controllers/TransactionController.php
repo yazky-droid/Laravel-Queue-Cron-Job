@@ -27,21 +27,23 @@ class TransactionController extends Controller
         //cek product
         $cekProduct = DB::table('products')->where('id', $request['product_id'])->first();
         if (is_null($cekProduct)) {
-            $data['message'] = 'product tidak ditemukan!';
+            $data['message'] = 'Product tidak ditemukan!';
             return response()->json($data, 400);
         }
 
         //create transaction
+        $expired_at = date('Y-m-d H:i:s', strtotime('+1 hour', strtotime(date('Y-m-d H:i:s'))));
         $transaction = new Transaction();
         $transaction->user_id = $request['user_id'];
         $transaction->product_id = $request['product_id'];
         $transaction->quantity = $request['quantity'];
         $transaction->amount = $request['quantity'] * $cekProduct->price;
+        $transaction->expired_at = $expired_at;
         if (!$transaction->save()) {
-            $data['message'] = 'gagal menyimpan data transaksi!';
+            $data['message'] = 'Gagal menyimpan data transaksi!';
             return response()->json($data, 400);
         }
-        $data['message'] = 'transaksi telah tersimpan, silahkan selesaikan pembayaran anda!';
+        $data['message'] = 'Transaksi telah tersimpan, silahkan selesaikan pembayaran anda sebelum ' . $expired_at . '!';
         return response()->json($data, 200);
     }
 
@@ -56,6 +58,61 @@ class TransactionController extends Controller
 
         $histories = Transaction::with('product')->where('user_id', $user_id)->get();
         $data['data'] = $histories;
+        return response()->json($data, 200);
+    }
+
+    public function payTransaction($id)
+    {
+        //get transaction
+        $cekTransaksi = Transaction::find($id);
+        if (is_null($cekTransaksi)) {
+            $data['message'] = 'Transaksi tidak ditemukan!';
+            return response()->json($data, 400);
+        }
+
+        switch ($cekTransaksi->status) {
+            case 'expired':
+                $data['message'] = 'Transaksi expire!';
+                $canPay = false;
+                break;
+            case 'done':
+                $data['message'] = 'Transaksi telah selesai!';
+                $canPay = false;
+                break;
+            case 'paid':
+                $data['message'] = 'Transaksi sudah dibayar!';
+                $canPay = false;
+                break;
+            case 'process':
+                $data['message'] = 'Transaksi sedang  diproses!';
+                $canPay = false;
+                break;
+            default:
+                $canPay = true;
+                break;
+        }
+
+        if (!$canPay) {
+            return response()->json($data, 400);
+        }
+
+        //cek expired
+        $now = date('Y-m-d H:i:s');
+        $start = strtotime($now);
+        $end = strtotime($cekTransaksi->expired_at);
+        $expired = $end - $start;
+        if ($expired < 1) {
+            $cekTransaksi->status = 'expired';
+            $data['message'] = 'Transaksi expire!';
+            return response()->json($data, 400);
+        }
+
+        $cekTransaksi->status = 'paid';
+        if (!$cekTransaksi->save()) {
+            $data['message'] = 'Gagal mengubah status transaksi!';
+            return response()->json($data, 400);
+        }
+        $data['message'] = 'Pembayaran berhasil, transaksi dalam antrian!';
         return response()->json($data, 200);
     }
 }
