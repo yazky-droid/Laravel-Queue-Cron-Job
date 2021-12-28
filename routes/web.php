@@ -52,7 +52,7 @@ Route::get('/transaction/{id}',[TransactionController::class,'index']);
 Route::post('/transaction',[TransactionController::class,'store']);
 Route::put('/transaction/{transaction}',[TransactionController::class,'update']);
 
-Route::get('/test',[MailController::class,'test']);
+// Route::get('/test',[MailController::class,'test']);
 
 
 Route::get('/product',[ProductController::class,'index']);
