@@ -15,11 +15,12 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('product_id');
             $table->integer('qty');
             $table->integer('total');
-            $table->string('status');
+            $table->string('status')->default('pending');
+            $table->timestamp('expired_at');
+            $table->foreignId('product_id')->constrained('products');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }
