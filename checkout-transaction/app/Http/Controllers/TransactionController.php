@@ -14,7 +14,7 @@ class TransactionController extends Controller
     public function history($id)
     {
 
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::where('user_id', $id)->get();
 
         if ($transaction != null) {
             $response = [
