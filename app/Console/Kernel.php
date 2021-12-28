@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('updatetrx')->hourly();
+        $schedule->command('command:notify-expire')->everyMinute();
+        $schedule->command('command:notify-process')->everyMinute();
     }
 
     /**
