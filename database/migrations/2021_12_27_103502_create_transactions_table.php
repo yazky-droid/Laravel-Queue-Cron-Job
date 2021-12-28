@@ -15,7 +15,8 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->status();
+            $table->integer('quantity');
+            $table->string('status')->default('Process');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('product_id')->constrained('products');
             $table->timestamps();
