@@ -104,4 +104,28 @@ class TransactionController extends Controller
             return response()->json($response, 200);
         }
     }
+
+    public function pay($id)
+    {
+        $transaksi = Transaction::find($id);
+
+        //update data
+        $transaksi->status = 'paid';
+
+        if (!$transaksi->save()) {
+            $response = [
+                'message' => 'Update Gagal!',
+                'data' => $transaksi
+            ];
+
+            return response()->json($response, 400);
+        } else {
+            $response = [
+                'message' => 'Status Transaksi Berhasil Diubah!',
+                'data' => $transaksi
+            ];
+
+            return response()->json($response, 200);
+        }
+    }
 }

@@ -53,7 +53,7 @@ class ExpiredNotification extends Command
                 dispatch(new SendNotificationJob($details['email']));
             }
 
-            // $this->info('Successfully sent.');
+            $this->info('Successfully sent.');
         }
     }
 }

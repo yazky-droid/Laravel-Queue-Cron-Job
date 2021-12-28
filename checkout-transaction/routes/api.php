@@ -22,4 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'transaction'], function () {
     Route::get('/history/{id}', [TransactionController::class, 'history']);
     Route::post('/checkout', [TransactionController::class, 'store']);
+    Route::put('/payment/{id}', [TransactionController::class, 'pay']);
 });
