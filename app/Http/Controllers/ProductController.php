@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -44,9 +45,9 @@ class ProductController extends Controller
             'image'=>'required|mimes:jpg,png,jpeg'
         ]);
         try {
-            $image = $request->image->store('images','s3');
+            $image = $request->image->store('/images','s3','public');
             $url = Storage::disk('s3')->url($image);
-
+            // return ['url'=>$url,'name'=>basename($image)];
             $product = Product::create([
                 'product_name'=>$request->product_name,
                 'product_price'=>$request->product_price,
@@ -58,9 +59,10 @@ class ProductController extends Controller
                 'data'=>$product
             ],201);
         } catch (\Throwable $th) {
-            //throw $th;
+            // return $th;
             return response()->json([
-                'message'=>'failed'
+                'message'=>'failed',
+                'data'=>$th
             ],400);
         }
     }
@@ -73,6 +75,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        // return Storage::disk('s3')->response('images/' . $product->image_name);
         return response()->json([
             'message'=>'success',
             'data'=>$product
