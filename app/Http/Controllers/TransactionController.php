@@ -17,8 +17,10 @@ class TransactionController extends Controller
     {
         $user = User::where('email', $request->email)->first();
         $product = Product::where('name', $request->product)->first();
+        $id = date('YmdHis');
 
         $transaction = new Transaction;
+        $transaction->id = $id;
         $transaction->user_id = $user->id;
         $transaction->product_id = $product->id;
         $transaction->ordered_on = Carbon::now();
@@ -26,7 +28,7 @@ class TransactionController extends Controller
 
         Notification::send($user, new InvoicePaidNotification());
 
-        ExpiredStatus::dispatch($user->id)
+        ExpiredStatus::dispatch($id)
             ->delay(now()->addMinutes(1));
 
         return response()->json([

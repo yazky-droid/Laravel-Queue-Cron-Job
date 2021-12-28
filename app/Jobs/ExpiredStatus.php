@@ -14,15 +14,15 @@ class ExpiredStatus implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $user;
+    public $id;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($id)
     {
-        $this->user = $user;
+        $this->id = $id;
     }
 
     /**
@@ -32,9 +32,9 @@ class ExpiredStatus implements ShouldQueue
      */
     public function handle()
     {
-        $transaction = Transaction::find($this->user);
+        $transaction = Transaction::find($this->id);
         if ($transaction->status == '') {
-            Transaction::find($this->user)->update([
+            $transaction->update([
                 'status' => 'failed'
             ]);
         }
