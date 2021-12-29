@@ -1,10 +1,10 @@
 "use strict";
-(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_Pages_ShowTransactions_jsx"],{
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_Pages_AddTransactions_copy_jsx"],{
 
-/***/ "./resources/js/Pages/ShowTransactions.jsx":
-/*!*************************************************!*\
-  !*** ./resources/js/Pages/ShowTransactions.jsx ***!
-  \*************************************************/
+/***/ "./resources/js/Pages/AddTransactions copy.jsx":
+/*!*****************************************************!*\
+  !*** ./resources/js/Pages/AddTransactions copy.jsx ***!
+  \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -37,96 +37,128 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var ShowTransaction = function ShowTransaction(_ref) {
+var AddTransaction = function AddTransaction(_ref) {
   var auth = _ref.auth;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState2 = _slicedToArray(_useState, 2),
-      data = _useState2[0],
-      setData = _useState2[1];
+      productName = _useState2[0],
+      setProductName = _useState2[1];
 
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    axios__WEBPACK_IMPORTED_MODULE_3___default().get("/transaction/".concat(auth.id)).then(function (data) {
-      return setData(data.data.data);
-    })["catch"](function (error) {
-      return console.log(error);
-    });
-    return function () {
-      setData([]);
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState4 = _slicedToArray(_useState3, 2),
+      productPrice = _useState4[0],
+      setProductPrice = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState6 = _slicedToArray(_useState5, 2),
+      productAmount = _useState6[0],
+      setProductAmount = _useState6[1];
+
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState8 = _slicedToArray(_useState7, 2),
+      total = _useState8[0],
+      setTotal = _useState8[1];
+
+  var send = function send() {
+    var data = {
+      product_name: productName,
+      product_price: productPrice,
+      product_amount: productAmount,
+      total: total,
+      user_id: auth.id
     };
-  }, []);
+
+    if (productName !== '' && productPrice !== 0 && productAmount !== 0) {
+      console.log(data);
+      axios__WEBPACK_IMPORTED_MODULE_3___default().post('/transaction', data).then(function (data) {
+        alert('Transaksi Berhasil Dibuat. Harap bayar sebelum 1 jam untuk kami proses');
+        setProductName('');
+        setProductPrice(0);
+        setProductAmount(0);
+      })["catch"](function (error) {
+        return console.log(error);
+      });
+    } else {
+      alert('Mohon Lengkapi Data');
+    }
+  };
+
+  setTimeout(function () {
+    setTotal(productAmount * productPrice);
+    console.log('berubah');
+  }, 100);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_Navbar__WEBPACK_IMPORTED_MODULE_2__["default"], {
       auth: auth
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-      className: "container mt-5  ",
+      className: "container mt-5  bg-light px-3 mx-auto",
+      style: {
+        width: '500px'
+      },
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
-        children: "Semua Transaksi Anda"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
-        className: "table",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
-              scope: "col",
-              children: "#"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
-              scope: "col",
-              children: "Nama Produk"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
-              scope: "col",
-              children: "Harga Produk"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
-              scope: "col",
-              children: "Jumlah Produk"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
-              scope: "col",
-              children: "Total Harga"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
-              scope: "col",
-              children: "Status"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
-              scope: "col",
-              children: "Aksi"
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
-          children: data.map(function (data, index) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
-                scope: "row",
-                children: index + 1
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
-                children: data.product_name
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
-                children: data.product_price
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
-                children: data.product_amount
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
-                children: data.total
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
-                children: data.status
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("td", {
-                children: [data.status === 'created' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
-                  onClick: function onClick() {
-                    axios__WEBPACK_IMPORTED_MODULE_3___default().put("/transaction/".concat(data.id), {
-                      user_id: auth.id
-                    }).then(function (data) {
-                      return setData(data.data.data);
-                    });
-                  },
-                  className: "btn btn-success",
-                  children: "Bayar"
-                }) : '', data.status === 'process' ? 'Sudah Bayar' : '', data.status === 'failed' ? 'Transaksi Gagal' : '']
-              })]
-            }, data.id);
-          })
+        className: "text-center",
+        children: "Tambah Transaksi"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "form-group mt-2",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
+          htmlFor: "product_name",
+          children: "Nama Produk"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+          type: "text",
+          className: "form-control",
+          placeholder: "Masukan Nama Produk",
+          id: "product_name",
+          value: productName,
+          onChange: function onChange(e) {
+            return setProductName(e.target.value);
+          }
         })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "form-group mt-2",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
+          htmlFor: "product_price",
+          children: "Harga Produk"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+          type: "number",
+          className: "form-control",
+          placeholder: "Masukan Harga Produk",
+          id: "product_price",
+          value: productPrice,
+          onChange: function onChange(e) {
+            setProductPrice(e.target.value);
+          }
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "form-group mt-2",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
+          htmlFor: "product_amount",
+          children: "Jumlah Produk"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+          type: "number",
+          className: "form-control",
+          placeholder: "Masukan Jumlah Produk",
+          id: "product_amount",
+          value: productAmount,
+          onChange: function onChange(e) {
+            setProductAmount(e.target.value);
+          }
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("h4", {
+        className: "mt-5",
+        children: ["Total: Rp ", total]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+        className: "btn btn-primary",
+        onClick: function onClick() {
+          return send();
+        },
+        children: "Beli"
       })]
     })]
   });
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShowTransaction);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AddTransaction);
 
 /***/ }),
 

@@ -1,10 +1,10 @@
 "use strict";
-(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_Pages_ShowTransactions_jsx"],{
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_Pages_ShowProduct_jsx"],{
 
-/***/ "./resources/js/Pages/ShowTransactions.jsx":
-/*!*************************************************!*\
-  !*** ./resources/js/Pages/ShowTransactions.jsx ***!
-  \*************************************************/
+/***/ "./resources/js/Pages/ShowProduct.jsx":
+/*!********************************************!*\
+  !*** ./resources/js/Pages/ShowProduct.jsx ***!
+  \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -37,7 +37,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var ShowTransaction = function ShowTransaction(_ref) {
+var ShowProduct = function ShowProduct(_ref) {
   var auth = _ref.auth;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
@@ -46,7 +46,7 @@ var ShowTransaction = function ShowTransaction(_ref) {
       setData = _useState2[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    axios__WEBPACK_IMPORTED_MODULE_3___default().get("/transaction/".concat(auth.id)).then(function (data) {
+    axios__WEBPACK_IMPORTED_MODULE_3___default().get("/product").then(function (data) {
       return setData(data.data.data);
     })["catch"](function (error) {
       return console.log(error);
@@ -61,7 +61,7 @@ var ShowTransaction = function ShowTransaction(_ref) {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "container mt-5  ",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
-        children: "Semua Transaksi Anda"
+        children: "Semua Produk"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
         className: "table",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
@@ -77,16 +77,16 @@ var ShowTransaction = function ShowTransaction(_ref) {
               children: "Harga Produk"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
               scope: "col",
-              children: "Jumlah Produk"
+              children: "Gambar Original"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
               scope: "col",
-              children: "Total Harga"
+              children: "Gambar Small"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
               scope: "col",
-              children: "Status"
+              children: "Gambar Medium"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
               scope: "col",
-              children: "Aksi"
+              children: "Gambar Large"
             })]
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
@@ -100,23 +100,37 @@ var ShowTransaction = function ShowTransaction(_ref) {
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
                 children: data.product_price
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
-                children: data.product_amount
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+                  src: data.original_image_url,
+                  className: "img-thumbnail",
+                  style: {
+                    width: '200px'
+                  }
+                })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
-                children: data.total
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+                  src: data.small_image_url,
+                  className: "img-thumbnail",
+                  style: {
+                    width: '200px'
+                  }
+                })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
-                children: data.status
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("td", {
-                children: [data.status === 'created' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
-                  onClick: function onClick() {
-                    axios__WEBPACK_IMPORTED_MODULE_3___default().put("/transaction/".concat(data.id), {
-                      user_id: auth.id
-                    }).then(function (data) {
-                      return setData(data.data.data);
-                    });
-                  },
-                  className: "btn btn-success",
-                  children: "Bayar"
-                }) : '', data.status === 'process' ? 'Sudah Bayar' : '', data.status === 'failed' ? 'Transaksi Gagal' : '']
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+                  src: data.medium_image_url,
+                  className: "img-thumbnail",
+                  style: {
+                    width: '200px'
+                  }
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+                  src: data.large_image_url,
+                  className: "img-thumbnail",
+                  style: {
+                    width: '200px'
+                  }
+                })
               })]
             }, data.id);
           })
@@ -126,7 +140,7 @@ var ShowTransaction = function ShowTransaction(_ref) {
   });
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShowTransaction);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShowProduct);
 
 /***/ }),
 

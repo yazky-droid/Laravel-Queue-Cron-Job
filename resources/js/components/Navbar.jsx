@@ -24,6 +24,12 @@ const Navbar = ({auth})=>{
               <li className="nav-item">
                 <Link className="nav-link" href="/lihat-transaksi">Lihat Transaksi</Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" href="/lihat-produk">Lihat Produk</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" href="/tambah-produk">Tambah Produk</Link>
+              </li>
               <li className="nav-item dropdown">
                 <Link className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   {auth.name}

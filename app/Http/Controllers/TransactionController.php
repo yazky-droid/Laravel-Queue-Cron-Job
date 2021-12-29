@@ -48,9 +48,13 @@ class TransactionController extends Controller
             'product_amount'=>'required|numeric',
             'total'=>'required|numeric'
         ]);
+        if(!$request->product_id){
+            $request->product_id = 1;
+        }
         try {
             $transaction = Transaction::create([
                 'user_id'=>$request->user_id,
+                'product_id'=>$request->product_id,
                 'product_name'=>$request->product_name,
                 'product_price'=>$request->product_price,
                 'product_amount'=>$request->product_amount,
