@@ -16,16 +16,14 @@ class TransactionController extends Controller
 
         $transaction = Transaction::where('user_id', $id)->get();
 
-        if ($transaction != null) {
+        if (count($transaction) > 0) {
             $response = [
                 'message' => 'Berhasil',
                 'data' => $transaction
             ];
 
             return response()->json($response, 200);
-        }
-
-        if ($transaction == null) {
+        } else {
             $response = [
                 'message' => 'Transaksi Tidak Ditemukan!',
                 'data' => null
