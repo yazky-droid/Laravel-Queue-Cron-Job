@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaction;
 use App\Models\User;
+use App\Models\Product;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Jobs\UpdatePendingToNotPaid;
+use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
@@ -32,17 +36,25 @@ class TransactionController extends Controller
             ]);
         }else {
             try {
+                $product = Product::where('id', $request->product_id)->first();
+                $dateNow = Carbon::create(now());
+                $dateExpired = $dateNow->addHour(1)->format("Y-m-d H:i:s");
+                $amount = $request->product_qty * $product->price;
+
                 $transaction = Transaction::create([
                     'user_id' => $request->user_id,
                     'product_id' => $request->product_id,
                     'product_qty' => $request->product_qty,
+                    'expired_at' => $dateExpired,
+                    'amount' => $amount
                 ]);
+                MailController::expiredDate($request->user_id);
+                dispatch(new UpdatePendingToNotPaid($request->user_id, $transaction->id))->delay(now()->addMinutes(5));
                 return response()->json([
-                    'message' => 'Checkout Product Success',
-                    'data' => ' '
-
+                    'message' => 'Checkout Product Success, You must pay it before ' . Carbon::create($dateExpired)->format("Y F d H:i:s"),
                 ]);
             } catch (\Throwable $th) {
+                return $th;  //untuk cek errornya apa
                 return response()->json([
                     'message' => 'Checkout Product Failed',
                 ]);
@@ -54,20 +66,39 @@ class TransactionController extends Controller
     {
         try {
             $user = User::find($id);
-            $product = Transaction::with('product')->where('user_id', $id)->get();
+            $transaction = Transaction::with('product')->where('user_id', $id)->orderBy('id', 'desc')->get();
             return response()->json([
-                'message' => 'Berhasil',
+                'message' => 'Success',
                 'data' => [
                     'user' => $user,
-                    'transaction' => $product,
+                    'transaction' => $transaction,
                 ]
-            ]);
+            ], 200);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'History failed!'
-            ]);
+                'message' => 'Get data history failed!'
+            ], 400);
         }
-
-
     }
+    // public function paidOrder(Request $request, $id)
+    // {
+    //     $transaction_paid = Transaction::where('status', 'Pending')->find($id);
+    //     try {
+
+    //         $transaction_paid->update([
+    //             'status' => 'Process',
+    //         ]);
+    //         MailController::paid($request->user_id);
+    //         return response()->json([
+    //             'message' => 'Your order is confirmed paid'
+    //         ],200);
+
+    //     } catch (\Throwable $th) {
+    //         return $th;
+    //         return response()->json([
+    //             'message' => 'Payment Failed',
+    //         ],400);
+    //     }
+
+    //     }
 }
