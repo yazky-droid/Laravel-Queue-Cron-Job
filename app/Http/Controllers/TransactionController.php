@@ -86,7 +86,7 @@ class TransactionController extends Controller
                 ]
             ], 200);
         } catch (\Throwable $th) {
-            return $th;
+            // return $th;
             return response()->json([
                 'message' => 'Get data failed !'
             ], 400);
@@ -108,7 +108,7 @@ class TransactionController extends Controller
                 'message' => 'Your order is confirmed paid'
             ]);
         } catch (\Throwable $th) {
-            return $th;
+            // return $th;
             return response()->json([
                 'message' => 'Payment Failed'
             ]);

@@ -33,10 +33,6 @@ class MailController extends Controller
 
     public static function orderPaid($id)
     {
-        // $email = User::find($id)->email;
-        // $name = User::find($id)->name;
-        $expire = Transaction::orderBy('created_at', 'desc')->where('user_id', $id)->first()->expired_at;
-        // Mail::to($email)->send(new SendMailNotification('NewOrder', $email, $name, $expire));
          $user = User::with('UserTransaction')->find($id);
 
          $details = array (
@@ -46,7 +42,7 @@ class MailController extends Controller
             'header' => '# Your order is confirmed paid',
             'content' => '<p>We have been confirmed your order</p> <br>
                             <p>We will process your order immediately<br>
-                            <p>thank you for trusting us</p>',
+                            <p>Thank you for trusting us</p>',
         );
         Mail::to($details['email'])->send(new SendMailNotification($details));
     }
