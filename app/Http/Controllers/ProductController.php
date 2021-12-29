@@ -52,30 +52,34 @@ class ProductController extends Controller
 
             // convert to large
             $image_resize_large = Image::make($request->image);
-            $image_resize_large->resize(1024,600);
+            $image_resize_large->resize(1024,600)->stream();
 
             $large_image = 'large'.$request->image->getClientOriginalName();
-            $large_url = 'images/'.$large_image;
-            $image_resize_large->save(public_path($large_url));
+
+            Storage::disk('s3')->put('images/'.$large_image, $image_resize_large);
+            $large_url = Storage::disk('s3')->url('images/'.$large_image);
 
 
             // convert to medium
             $image_resize_medium = Image::make($request->image);
-            $image_resize_medium->resize(800,400);
+            $image_resize_medium->resize(800,400)->stream();
 
 
             $medium_image = 'medium'.$request->image->getClientOriginalName();
-            $medium_url = 'images/'.$medium_image;
-            $image_resize_medium->save(public_path($medium_url));
 
+            Storage::disk('s3')->put('images/'.$medium_image, $image_resize_medium);
+            $medium_url = Storage::disk('s3')->url('images/'.$medium_image);
 
             // convert to small
             $image_resize_small = Image::make($request->image);
-            $image_resize_small->resize(215,80);
+            $image_resize_small->resize(215,80)->stream();
 
             $small_image = 'small'.$request->image->getClientOriginalName();
-            $small_url = 'images/'.$small_image;
-            $image_resize_small->save(public_path($small_url));
+            // $small_url = 'images/'.$small_image;
+            // $image_resize_small->save(public_path($small_url));
+
+            Storage::disk('s3')->put('images/'.$small_image, $image_resize_small);
+            $small_url = Storage::disk('s3')->url('images/'.$small_image);
 
 
             $product = Product::create([
@@ -95,11 +99,11 @@ class ProductController extends Controller
                 'data'=>$product
             ],201);
         } catch (\Throwable $th) {
-            return $th;
-            // return response()->json([
-            //     'message'=>'failed',
-            //     'data'=>$th
-            // ],400);
+            // return $th;
+            return response()->json([
+                'message'=>'failed',
+                'data'=>$th
+            ],400);
         }
     }
 
@@ -111,12 +115,11 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return Storage::disk('s3')->response('images/' . $product->original_image_name);
-        // return response()->json([
-        //     'message'=>'success',
-        //     'data'=>$product,
-        //     'image'=>Storage::disk('s3')->response('images/' . $product->image_name)
-        // ],200);
+        // return Storage::disk('s3')->response('images/' . $product->original_image_name);
+        return response()->json([
+            'message'=>'success',
+            'data'=>$product
+        ],200);
     }
 
     /**
@@ -152,7 +155,10 @@ class ProductController extends Controller
     {
         try {
             //code...
-            Storage::disk('s3')->delete($product->image_name);
+            Storage::disk('s3')->delete($product->original_image_name);
+            Storage::disk('s3')->delete($product->large_image_name);
+            Storage::disk('s3')->delete($product->medium_image_name);
+            Storage::disk('s3')->delete($product->small_image_name);
             $product->delete();
             return response()->json([
                 'message'=>'success'

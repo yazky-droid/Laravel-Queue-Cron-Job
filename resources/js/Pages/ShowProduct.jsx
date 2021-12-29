@@ -26,7 +26,10 @@ const ShowProduct = ({auth}) =>{
                             <th scope="col">#</th>
                             <th scope="col">Nama Produk</th>
                             <th scope="col">Harga Produk</th>
-                            <th scope="col">Gambar Produk</th>
+                            <th scope="col">Gambar Original</th>
+                            <th scope="col">Gambar Small</th>
+                            <th scope="col">Gambar Medium</th>
+                            <th scope="col">Gambar Large</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,6 +42,27 @@ const ShowProduct = ({auth}) =>{
                                     <td>
                                         <img
                                             src={data.original_image_url}
+                                            className='img-thumbnail'
+                                            style={{width:'200px'}}
+                                            />
+                                    </td>
+                                    <td>
+                                        <img
+                                            src={data.small_image_url}
+                                            className='img-thumbnail'
+                                            style={{width:'200px'}}
+                                            />
+                                    </td>
+                                    <td>
+                                        <img
+                                            src={data.medium_image_url}
+                                            className='img-thumbnail'
+                                            style={{width:'200px'}}
+                                            />
+                                    </td>
+                                    <td>
+                                        <img
+                                            src={data.large_image_url}
                                             className='img-thumbnail'
                                             style={{width:'200px'}}
                                             />
