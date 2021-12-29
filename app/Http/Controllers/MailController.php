@@ -29,16 +29,16 @@ class MailController extends Controller
         Mail::to($details['email'])->send(new SendMailNotification($details));
         }
 
-    // public static function paid($id)
-    // {
-    //     $user = User::with('userTransaction')->find($id);
-    //     $details = [
-    //         'email' => $user->email,
-    //         'name' => $user->name,
-    //         'subject' => 'Order Paid',
-    //         'header' => '# Your order payment is success',
-    //         'content' => '<p> Thanks, your payment order is success. <br>Please wait, your order is processing.<br>And, we will send it immediately to you.</p>',
-    //     ];
-    //     Mail::to($details['email'])->send(new SendMailNotification($details));
-    // }
+    public static function paid($id)
+    {
+        $user = User::with('userTransaction')->find($id);
+        $details = [
+            'email' => $user->email,
+            'name' => $user->name,
+            'subject' => 'Order Paid',
+            'header' => '# Your order payment is success',
+            'content' => '<p> Thanks, your payment order is success. <br>Please wait, your order is processing.<br>And, we will send it immediately to you.</p>',
+        ];
+        Mail::to($details['email'])->send(new SendMailNotification($details));
+    }
     }

@@ -80,25 +80,25 @@ class TransactionController extends Controller
             ], 400);
         }
     }
-    // public function paidOrder(Request $request, $id)
-    // {
-    //     $transaction_paid = Transaction::where('status', 'Pending')->find($id);
-    //     try {
+    public function paidOrder(Request $request, $id)
+    {
+        $transaction_paid = Transaction::where('status', 'Pending')->find($id);
+        try {
 
-    //         $transaction_paid->update([
-    //             'status' => 'Process',
-    //         ]);
-    //         MailController::paid($request->user_id);
-    //         return response()->json([
-    //             'message' => 'Your order is confirmed paid'
-    //         ],200);
+            $transaction_paid->update([
+                'status' => 'Process',
+            ]);
+            MailController::paid($request->user_id);
+            return response()->json([
+                'message' => 'Your order is confirmed paid'
+            ],200);
 
-    //     } catch (\Throwable $th) {
-    //         return $th;
-    //         return response()->json([
-    //             'message' => 'Payment Failed',
-    //         ],400);
-    //     }
+        } catch (\Throwable $th) {
+            return $th;
+            return response()->json([
+                'message' => 'Payment Failed',
+            ],400);
+        }
 
-    //     }
+        }
 }
