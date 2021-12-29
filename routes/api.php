@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/checkout', [TransactionController::class, 'checkout']);
 Route::get('/transaction-history/{id}', [TransactionController::class, 'userHistory']);
+Route::put('/payment-confirmation/{id}/{user_id}', [TransactionController::class, 'paidOrder']);
 

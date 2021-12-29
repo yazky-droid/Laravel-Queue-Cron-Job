@@ -16,7 +16,9 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'price'
+        'price',
+        'product_image_name',
+        'product_image_url'
     ];
 
     public function productTransaction()

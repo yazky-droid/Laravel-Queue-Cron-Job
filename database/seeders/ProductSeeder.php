@@ -18,18 +18,24 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Melon',
                 'price' => 7000,
+                'product_image_name' => 'null',
+                'product_image_url' => 'null',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'name' => 'Semangka',
                 'price' => 5000,
+                'product_image_name' => 'null',
+                'product_image_url' => 'null',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'name' => 'Jeruk',
                 'price' => 9000,
+                'product_image_name' => 'null',
+                'product_image_url' => 'null',
                 'created_at' => now(),
                 'updated_at' => now()
             ]

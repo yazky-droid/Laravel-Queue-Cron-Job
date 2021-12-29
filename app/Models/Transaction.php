@@ -27,7 +27,9 @@ class Transaction extends Model
         'user_id',
         'product_id',
         'product_qty',
-        'status'
+        'status',
+        'amount',
+        'expired_at'
     ];
 
     public function user()
