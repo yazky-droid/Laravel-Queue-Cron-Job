@@ -17,6 +17,14 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('price');
+            $table->string('original_img')->nullable();
+            $table->string('original_img_url')->nullable();
+            $table->string('large_img')->nullable();
+            $table->string('large_img_url')->nullable();
+            $table->string('medium_img')->nullable();
+            $table->string('medium_img_url')->nullable();
+            $table->string('small_img')->nullable();
+            $table->string('small_img_url')->nullable();
             $table->timestamps();
         });
     }
