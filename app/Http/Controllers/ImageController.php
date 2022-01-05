@@ -22,7 +22,9 @@ class ImageController extends Controller
         'url' => Storage::disk('s3')->url($path),
     ]);
 
-    return $image;
+    return response()->json([
+        'message' => 'success '
+    ]);
     }
 
     public function show(Image $image)
