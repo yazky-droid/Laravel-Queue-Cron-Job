@@ -52,7 +52,8 @@ class TransactionController extends Controller
                 dispatch(new UpdatePendingToNotPaid($request->user_id, $transaction->id))->delay(now()->addMinutes(60));
                 return response()->json([
                     'message' => 'Checkout Product Success, You must pay it before ' . Carbon::create($dateExpired)->format("Y F d H:i:s"),
-                ]);
+                    'status' => 200,
+                ],200);
             } catch (\Throwable $th) {
                 return $th;  //untuk cek errornya apa
                 return response()->json([
